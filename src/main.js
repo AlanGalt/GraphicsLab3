@@ -1,6 +1,6 @@
 const templateSketch = function(p) {
   p.setup = function() {
-    p.createCanvas(400, 400);
+    p.createCanvas(600, 390);
   }
 
   p.draw = function() {
