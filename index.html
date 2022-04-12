@@ -52,30 +52,73 @@
       <div class="container gap">
         <div>
           <label for="y-angle">Угол относительно OX</label>
-          <input type="range" id="x-angle" min="0" max="359" step="1" value="0">
+          <input type="range" id="x-angle" min="-180" max="180" step="1" value="0">
           <span id="x-value">0</span>
+          <div>
+            <span>Шаг</span>
+            <input class="step" id="x-angle-step" type="number" step="1" value="0">
+          </div>
         </div>
         
         <div>
           <label for="y-angle">Угол относительно OY</label>
-          <input type="range" id="y-angle" min="0" max="359" step="1" value="0">
+          <input type="range" id="y-angle" min="-180" max="180" step="1" value="0">
           <span id="y-value">0</span>
+          <div>
+            <span>Шаг</span>
+            <input class="step" id="y-angle-step" type="number" step="1" value="0">
+          </div>
         </div>
-        
-        
 
         <div>
           <label for="y-angle">Угол относительно OZ</label>
           <input type="number" id="z-val" value="90" readonly>
+        </div> 
+      </div>
+
+      <div class="container gap">
+        <div>
+          <label for="x-coord">X-координата центра проецирования</label>
+          <input type="range" id="x-coord" min="-50" max="50" step="1" value="0">
+          <span id="x-coord-val">0</span>
+          <div>
+            <span>Шаг</span>
+            <input class="step" id="x-coord-step" type="number" step="1" value="0">
+          </div>
         </div>
-        
+
+        <div>
+          <label for="y-coord">Y-координата центра проецирования</label>
+          <input type="range" id="y-coord" min="-50" max="50" step="1" value="0">
+          <span id="y-coord-val">0</span>
+          <div>
+            <span>Шаг</span>
+            <input class="step" id="y-coord-step" type="number" step="1" value="0">
+          </div>
+        </div>
+
+        <div>
+          <label for="z-coord">Z-координата центра проецирования</label>
+          <input type="range" id="z-coord" min="-50" max="50" step="1" value="10">
+          <span id="z-coord-val">10</span>
+          <div>
+            <span>Шаг</span>
+            <input class="step" id="z-coord-step" type="number" step="1" value="0">
+          </div>
+        </div>
+      </div>
+      
+      <div>
+        <label for="dist">Расстояние D</label>
+        <input type="range" id="dist" min="-10" max="10" step="1" value="0">
+        <span id="dist-val">0</span>
+        <div>
+          <span>Шаг</span>
+          <input class="step" id="dist-step" type="number" step="1" value="0">
+        </div>
       </div>
       
     </div>
-
-  
-
-
 
     
     <div id="canvas-container"></div>

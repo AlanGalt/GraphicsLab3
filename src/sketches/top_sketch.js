@@ -1,6 +1,6 @@
 const topConfig = new Config({
   type: 'top',
-  projCenter: new Point([10, 7, 30]),
+  projCenter: new Point([0, 0, 10]),
   projectEntity(p) {
     return new Point([p.x, 0, p.z]);
   }, 

@@ -19,6 +19,10 @@ const templateSketch = function(p, config) {
       let p1 = p.config.toScreen(edge.p1);
       let p2 = p.config.toScreen(edge.p2);
       p.line(p1.x, p1.y, p2.x, p2.y);
+      if (p.config.type != 'primary') {
+        p.text(`${edge.p1.x || ""} ${edge.p1.y || ""} ${edge.p1.z || ""}`, p1.x, p1.y);
+        p.text(`${edge.p2.x || ""} ${edge.p2.y || ""} ${edge.p2.z || ""}`, p2.x, p2.y);
+      }
     }
     if (p.config.type != 'primary') {
       let s = p.config.projectEntity(p.config.projCenter);
@@ -93,27 +97,30 @@ const templateSketch = function(p, config) {
         }
       }
 
-      let xArrow1 = new Edge(new Point([14, 0, 0]), new Point([13.5, 0, 0.3]));
-      let xArrow2 = new Edge(new Point([14, 0, 0]), new Point([13.5, 0, -0.3]));
-      let yArrow1 = new Edge(new Point([0, 9, 0]), new Point([0.3, 8.5, 0]));
-      let yArrow2 = new Edge(new Point([0, 9, 0]), new Point([-0.3, 8.5, 0]));
-      let zArrow1 = new Edge(new Point([0, 0, 14]), new Point([0.3, 0, 13.5]));
-      let zArrow2 = new Edge(new Point([0, 0, 14]), new Point([-0.3, 0, 13.5]));
-      for (edge of [xArrow1, xArrow2, yArrow1, yArrow2, zArrow1, zArrow2]) {
-        let projected = p.config.projectEntity(edge, p.config.projMatrix, p.config.projCenter, p.config.e);
-        if (projected) {
-          let p1 = p.config.toScreen(projected.p1);
-          let p2 = p.config.toScreen(projected.p2);
-          p.line(p1.x, p1.y, p2.x, p2.y);
-        } 
-      }
+      // let xArrow1 = new Edge(new Point([14, 0, 0]), new Point([13.5, 0, 0.3]));
+      // let xArrow2 = new Edge(new Point([14, 0, 0]), new Point([13.5, 0, -0.3]));
+      // let yArrow1 = new Edge(new Point([0, 9, 0]), new Point([0.3, 8.5, 0]));
+      // let yArrow2 = new Edge(new Point([0, 9, 0]), new Point([-0.3, 8.5, 0]));
+      // let zArrow1 = new Edge(new Point([0, 0, 14]), new Point([0.3, 0, 13.5]));
+      // let zArrow2 = new Edge(new Point([0, 0, 14]), new Point([-0.3, 0, 13.5]));
+      // for (edge of [xArrow1, xArrow2, yArrow1, yArrow2, zArrow1, zArrow2]) {
+      //   let projected = p.config.projectEntity(edge, p.config.projMatrix, p.config.projCenter, p.config.e);
+      //   if (projected) {
+      //     let p1 = p.config.toScreen(projected.p1);
+      //     let p2 = p.config.toScreen(projected.p2);
+      //     p.line(p1.x, p1.y, p2.x, p2.y);
+      //   } 
+      // }
       
-      let xLabel = p.config.toScreen(xAxis.p2);
-      let yLabel = p.config.toScreen(yAxis.p2);
-      let zLabel = p.config.toScreen(zAxis.p2);
-      p.text('x', xLabel.x, xLabel.y - 5);
-      p.text('y', yLabel.x + 5, yLabel.y);
-      p.text('z', zLabel.x - 12, zLabel.y - 6);
+      if(xAxis && yAxis && zAxis) {
+        let xLabel = p.config.toScreen(xAxis.p2);
+        let yLabel = p.config.toScreen(yAxis.p2);
+        let zLabel = p.config.toScreen(zAxis.p2);
+        p.text('x', xLabel.x, xLabel.y - 5);
+        p.text('y', yLabel.x + 5, yLabel.y);
+        p.text('z', zLabel.x - 12, zLabel.y - 6);
+      } 
+      
       // p.text('o', width / 2 + 3, height / 2 - 3);
     }
     p.pop();

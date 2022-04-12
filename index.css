@@ -47,6 +47,7 @@ button {
   display: flex;
   flex-direction: column;
   width: 100%;
+  margin-bottom: 20px;
 }
 
 input[id^="cell"] {
@@ -56,6 +57,10 @@ input[id^="cell"] {
 
 input[type="range"] {
   width: 250px;
+}
+
+.step {
+  width: 50px;
 }
 
 .gap {

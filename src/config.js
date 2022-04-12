@@ -13,7 +13,8 @@ class Config {
       [0, 0, 0, 1],
     ];
     this.e = obj.e;
-    this.projectEntity = (entity) => obj.projectEntity(entity, this.projMatrix, this.projCenter, this.e);
+    this.projectEntity = (entity) => obj.projectEntity(entity, this.frontProjection, this.projCenter, 
+      this.e, this.rotationMatrix, this.transMatrix);
     this.toScreen = obj.toScreen;
     this.setProjectionMatrix();
   }
@@ -21,19 +22,35 @@ class Config {
   setProjectionMatrix() {
     if (this.type != 'primary') return;
     this.rotate();
-    this.roundMatrix();
     this.translate();
+    this.roundMatrix();
+    if (!this.projCenter.z) {
+      this.projMatrix = [
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0]
+      ];
+      this.frontProjection = [
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0]
+      ];
+      this.updateTable();
+      return;
+    }
     let cX = this.projCenter.x / this.projCenter.z;
     let cY = this.projCenter.y / this.projCenter.z;
     let cF = 1 / this.projCenter.z;
-    let frontProjection = [
+    this.frontProjection = [
       [1, 0, 0, 0],
       [0, 1, 0, 0],
       [-cX, -cY, 0, -cF],
       [0, 0, 0, 1],
     ];
-    let aligned = math.multiply(this.rotationMatrix, this.transMatrix);
-    this.projMatrix = math.multiply(aligned, frontProjection);
+    let aligned = matrixDot(this.rotationMatrix, this.transMatrix);
+    this.projMatrix = matrixDot(aligned, this.frontProjection);
     this.roundMatrix();
     this.updateTable();
   }
@@ -55,11 +72,8 @@ class Config {
       [0, 0, -this.coordDist, 1],
     ];
     let vec = [this.projCenter.x, this.projCenter.y, this.projCenter.z, 1];
-    vec = math.multiply(vec, this.transMatrix);
-    this.projCenter = new Point([
-      Math.round(vec[0] * 100) / 100, 
-      Math.round(vec[1] * 100) / 100, 
-      Math.round(vec[2] * 100) / 100]);
+    vec = vectorMatrixDot(vec, this.transMatrix);
+    this.projCenter = new Point(normalize(vec));
   }
 
   rotate() {
@@ -71,12 +85,10 @@ class Config {
       [Math.sin(aY), -Math.cos(aY)*Math.sin(aX), Math.cos(aX)*Math.cos(aY), 0],
       [0, 0, 0, 1],
     ];
+    // console.log(this.rotationMatrix);
     let vec = [this.initCenter.x, this.initCenter.y, this.initCenter.z, 1];
-    vec = math.multiply(vec, this.rotationMatrix);
-    this.projCenter = new Point([
-      Math.round(vec[0] * 100) / 100, 
-      Math.round(vec[1] * 100) / 100, 
-      Math.round(vec[2] * 100) / 100]);
+    vec = vectorMatrixDot(vec, this.rotationMatrix);
+    this.projCenter = new Point(normalize(vec));
   }
 
   roundMatrix() {
@@ -87,3 +99,13 @@ class Config {
     }
   }
 };
+
+normalize = (vec) => {
+  return (
+    [
+      Math.round(vec[0] / vec[3] * 100) / 100,
+      Math.round(vec[1] / vec[3] * 100) / 100,
+      Math.round(vec[2] / vec[3] * 100) / 100
+    ]
+  );
+}
