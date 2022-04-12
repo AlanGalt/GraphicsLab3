@@ -1,3 +1,4 @@
+//Added native multiplication functions
 class Config {
   constructor(obj) {
     this.type = obj.type;
