@@ -11,9 +11,9 @@ const primaryConfig = new Config({
     const p2 = edge.p2;
     let vec1 = [p1.x, p1.y, p1.z, 1];
     let vec2 = [p2.x, p2.y, p2.z, 1];
-    let aligned = math.multiply(rotationMatrix, transMatrix);
-    vec1 = math.multiply(vec1, aligned);
-    vec2 = math.multiply(vec2, aligned);
+    let aligned = matrixDot(rotationMatrix, transMatrix);
+    vec1 = vectorMatrixDot(vec1, aligned);
+    vec2 = vectorMatrixDot(vec2, aligned);
 
     const h1 = 1 - vec1[2] / s.z;
     const h2 = 1 - vec2[2] / s.z;
@@ -37,8 +37,8 @@ const primaryConfig = new Config({
       ];
       // console.log(`${vec1}, ${vec2}`);
     }
-    vec1 = math.multiply(vec1, projMatrix);
-    vec2 = math.multiply(vec2, projMatrix);
+    vec1 = vectorMatrixDot(vec1, projMatrix);
+    vec2 = vectorMatrixDot(vec2, projMatrix);
      
     vec1 = normalize(vec1);
     vec2 = normalize(vec2);
